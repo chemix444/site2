@@ -444,13 +444,15 @@
   .cat-header { text-align: center; margin-bottom: 4rem; }
 
   .cat-grid {
-    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    max-width: 900px; margin: 0 auto;
   }
 
   .cat-card {
     aspect-ratio: 3/4; position: relative; overflow: hidden;
     border-radius: 2px; background: var(--ink);
     display: flex; align-items: flex-end;
+    cursor: pointer;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 border-color 0.5s ease;
@@ -491,9 +493,6 @@
   .cat-1 .cat-bg { background: linear-gradient(135deg, #2D1B00 0%, #1A0A0A 100%); }
   .cat-2 .cat-bg { background: linear-gradient(135deg, #001A1A 0%, #0D1A0D 100%); }
   .cat-3 .cat-bg { background: linear-gradient(135deg, #1A001A 0%, #0D0018 100%); }
-  .cat-4 .cat-bg { background: linear-gradient(135deg, #1A1000 0%, #0A1010 100%); }
-  .cat-5 .cat-bg { background: linear-gradient(135deg, #1A0000 0%, #150D00 100%); }
-  .cat-6 .cat-bg { background: linear-gradient(135deg, #001010 0%, #0D1A1A 100%); }
 
   /* Decorative icons inside each card */
   .cat-icon {
@@ -688,7 +687,7 @@
     .features-header { grid-template-columns: 1fr; }
     .features-stat { text-align: left; }
     .features-grid { grid-template-columns: repeat(2, 1fr); }
-    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); max-width: none; }
     .dining-grid { grid-template-columns: 1fr; }
     .dining-img-accent { display: none; }
     .footer-top { grid-template-columns: 1fr; }
@@ -699,7 +698,7 @@
     .nav-links { display: none; }
     .features, .experience, .categories, .dining, .events-banner, .info-strip, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
     .features-grid { grid-template-columns: 1fr; }
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .cat-grid { grid-template-columns: 1fr 1fr 1fr; max-width: none; }
     .experience-grid { grid-template-columns: 1fr; }
     .events-inner { flex-direction: column; }
     .info-inner { grid-template-columns: 1fr; }
@@ -850,6 +849,97 @@
     color: var(--gold-light);
   }
   .contact-btn svg { flex-shrink: 0; color: var(--gold); }
+
+  /* ─── CATEGORY MODAL ─── */
+  .cat-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+  }
+  .cat-modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .cat-modal {
+    background: var(--ink);
+    border: 1px solid rgba(201,147,58,0.25);
+    border-radius: 4px;
+    padding: 2.5rem 2rem 2rem;
+    max-width: 700px;
+    width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: fadeUp 0.3s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .cat-modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; cursor: pointer;
+    color: rgba(247,239,224,0.4); font-size: 1.3rem; line-height: 1;
+    transition: color 0.2s; z-index: 1;
+  }
+  .cat-modal-close:hover { color: var(--cream); }
+
+  .cat-modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.4rem; text-align: center;
+  }
+
+  .cat-modal-subtitle {
+    font-size: 0.78rem; color: var(--gold); letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: center; margin-bottom: 2rem;
+  }
+
+  .cat-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .cat-modal-item {
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(201,147,58,0.12);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .cat-modal-item:hover {
+    border-color: rgba(201,147,58,0.4);
+    transform: translateY(-2px);
+  }
+
+  .cat-modal-item img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    display: block;
+  }
+
+  .cat-modal-item-name {
+    padding: 0.6rem 0.7rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; color: var(--cream);
+    background: rgba(13,10,7,0.8);
+    text-align: center;
+  }
+
+  .cat-modal::-webkit-scrollbar { width: 6px; }
+  .cat-modal::-webkit-scrollbar-track { background: transparent; }
+  .cat-modal::-webkit-scrollbar-thumb {
+    background: rgba(201,147,58,0.3); border-radius: 3px;
+  }
+
+  @media (max-width: 600px) {
+    .cat-modal-grid { grid-template-columns: repeat(2, 1fr); }
+    .cat-modal { padding: 2rem 1.2rem 1.5rem; }
+    .cat-modal h3 { font-size: 1.5rem; }
+  }
 
 </style>
 </head>
@@ -1110,58 +1200,31 @@
     </div>
 
     <div class="cat-grid">
-      <div class="cat-card cat-1 reveal">
+      <div class="cat-card cat-1 reveal" onclick="openCatModal('stores')">
         <div class="cat-bg"></div>
         <div class="cat-overlay"></div>
         <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <div class="cat-info">
-          <span class="cat-name">Fashion</span>
-          <span class="cat-count">18 Stores</span>
+          <span class="cat-name">Stores</span>
+          <span class="cat-count">6 Stores</span>
         </div>
       </div>
-      <div class="cat-card cat-2 reveal reveal-delay-1">
-        <div class="cat-bg"></div>
-        <div class="cat-overlay"></div>
-        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M3 6h18l-2 13H5L3 6z"/><path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2"/></svg>
-        <div class="cat-info">
-          <span class="cat-name">Grocery</span>
-          <span class="cat-count">4 Stores</span>
-        </div>
-      </div>
-      <div class="cat-card cat-3 reveal reveal-delay-2">
+      <div class="cat-card cat-2 reveal reveal-delay-1" onclick="openCatModal('activities')">
         <div class="cat-bg"></div>
         <div class="cat-overlay"></div>
         <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <div class="cat-info">
-          <span class="cat-name">Jewelry</span>
-          <span class="cat-count">7 Stores</span>
+          <span class="cat-name">Activities</span>
+          <span class="cat-count">4 Activities</span>
         </div>
       </div>
-      <div class="cat-card cat-4 reveal reveal-delay-1">
+      <div class="cat-card cat-3 reveal reveal-delay-2" onclick="openCatModal('restaurants')">
         <div class="cat-bg"></div>
         <div class="cat-overlay"></div>
-        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M10 10h4"/></svg>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
         <div class="cat-info">
-          <span class="cat-name">Beauty</span>
-          <span class="cat-count">5 Stores</span>
-        </div>
-      </div>
-      <div class="cat-card cat-5 reveal reveal-delay-2">
-        <div class="cat-bg"></div>
-        <div class="cat-overlay"></div>
-        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-        <div class="cat-info">
-          <span class="cat-name">Electronics</span>
-          <span class="cat-count">3 Stores</span>
-        </div>
-      </div>
-      <div class="cat-card cat-6 reveal reveal-delay-3">
-        <div class="cat-bg"></div>
-        <div class="cat-overlay"></div>
-        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        <div class="cat-info">
-          <span class="cat-name">Services</span>
-          <span class="cat-count">10+ Vendors</span>
+          <span class="cat-name">Restaurants</span>
+          <span class="cat-count">9 Restaurants</span>
         </div>
       </div>
     </div>
@@ -1450,6 +1513,73 @@
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWhatsAppModal(); });
 
+  // Category modal data
+  const catModalData = {
+    stores: {
+      title: 'Stores',
+      subtitle: 'Shopping at Mall of India',
+      items: [
+        { name: 'India Co.', img: 'https://mallofindia.us/images/client/indiaco.jpg' },
+        { name: 'Shashwath Silks', img: 'https://mallofindia.us/images/client/shashwath-silks.jpg' },
+        { name: 'Meena Bazaar', img: 'https://mallofindia.us/images/client/meena-bazaar.jpg' },
+        { name: 'Famous Meats', img: 'https://mallofindia.us/images/client/famous-meats.jpg' },
+        { name: 'Srishti', img: 'https://mallofindia.us/images/client/srishti.jpg' },
+        { name: 'Golden Silks', img: 'https://mallofindia.us/images/client/golden-silks.jpg' }
+      ]
+    },
+    activities: {
+      title: 'Activities',
+      subtitle: 'Kids Activities at Mall of India',
+      items: [
+        { name: 'BB', img: 'https://mallofindia.us/images/client/bb.jpg' },
+        { name: 'ConfidentLee', img: 'https://mallofindia.us/images/client/confidentlee.jpg' },
+        { name: 'Stem Shala', img: 'https://mallofindia.us/images/client/stem-shala.jpg' },
+        { name: 'Dance', img: 'https://mallofindia.us/images/client/dance.jpg' }
+      ]
+    },
+    restaurants: {
+      title: 'Restaurants',
+      subtitle: 'Food Court at Mall of India',
+      items: [
+        { name: 'HH', img: 'https://mallofindia.us/images/client/hh.jpg' },
+        { name: 'Monks', img: 'https://mallofindia.us/images/client/monks.jpg' },
+        { name: 'Wraps', img: 'https://mallofindia.us/images/client/wraps.jpg' },
+        { name: 'Desi Village', img: 'https://mallofindia.us/images/client/desivillage.jpg' },
+        { name: 'Nala', img: 'https://mallofindia.us/images/client/nala.jpg' },
+        { name: 'Nala Robotics', img: 'https://mallofindia.us/images/client/nala-robotics.jpg' },
+        { name: 'One Mean Chicken', img: 'https://mallofindia.us/images/client/one-mean-chicken.jpg' },
+        { name: 'Thai 76', img: 'https://mallofindia.us/images/client/thai76.jpg' },
+        { name: 'Surya Tiffins', img: 'https://mallofindia.us/images/client/surya-tiffins.jpg' }
+      ]
+    }
+  };
+
+  function openCatModal(category) {
+    var data = catModalData[category];
+    if (!data) return;
+    document.getElementById('catModalTitle').textContent = data.title;
+    document.getElementById('catModalSubtitle').textContent = data.subtitle;
+    var grid = document.getElementById('catModalGrid');
+    grid.innerHTML = '';
+    data.items.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'cat-modal-item';
+      div.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">' +
+        '<div class="cat-modal-item-name">' + item.name + '</div>';
+      grid.appendChild(div);
+    });
+    document.getElementById('catModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCatModal() {
+    document.getElementById('catModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeCatModalOnBackdrop(e) {
+    if (e.target === document.getElementById('catModal')) closeCatModal();
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeCatModal(); });
+
   // WhatsApp modal
   function openWhatsAppModal() {
     document.getElementById('waModal').classList.add('open');
@@ -1478,6 +1608,16 @@
   }
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeContactModal(); });
 </script>
+<!-- CATEGORY MODAL -->
+<div class="cat-modal-overlay" id="catModal" onclick="closeCatModalOnBackdrop(event)">
+  <div class="cat-modal">
+    <button class="cat-modal-close" onclick="closeCatModal()" aria-label="Close">✕</button>
+    <h3 id="catModalTitle"></h3>
+    <div class="cat-modal-subtitle" id="catModalSubtitle"></div>
+    <div class="cat-modal-grid" id="catModalGrid"></div>
+  </div>
+</div>
+
 <!-- WHATSAPP MODAL -->
 <div class="wa-modal-overlay" id="waModal" onclick="closeWaModalOnBackdrop(event)">
   <div class="wa-modal">
