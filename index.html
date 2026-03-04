@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mall of India — Naperville, Illinois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9933A;
+    --gold-light: #E8B96A;
+    --gold-pale: #F5E4C0;
+    --crimson: #8B1A2A;
+    --deep: #0D0A07;
+    --ink: #1A1410;
+    --parchment: #FAF5ED;
+    --teal: #1A4A4A;
+    --teal-light: #2A7070;
+    --cream: #F7EFE0;
+  }
+
+
+  /* ─── CUSTOM SCROLLBAR ─── */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--deep);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-light);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--deep);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── CURSOR ─── */
+  * { cursor: none; }
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--gold); border-radius: 50%;
+    pointer-events: none; z-index: 2147483647;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 1px solid var(--gold-light); border-radius: 50%;
+    pointer-events: none; z-index: 2147483646;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: linear-gradient(to bottom, rgba(13,10,7,0.95) 0%, transparent 100%);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(13,10,7,0.97); border-bottom: 1px solid rgba(201,147,58,0.2); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--gold-light); text-decoration: none;
+  }
+  .nav-logo span { color: var(--cream); font-weight: 300; }
+
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: rgba(247,239,224,0.75);
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+    height: 1px; background: var(--gold); transform: scaleX(0);
+    transition: transform 0.3s; transform-origin: left;
+  }
+  .nav-links a.active { color: var(--gold-light); }
+  .nav-links a.active::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: var(--gold); color: var(--ink) !important;
+    padding: 0.55rem 1.4rem; border-radius: 2px;
+    font-weight: 600 !important; letter-spacing: 0.08em;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* ─── HAMBURGER ─── */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; padding: 4px;
+    cursor: none;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--gold-light); transition: all 0.3s;
+    transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: rgba(13,10,7,0.98);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 2.5rem;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .mobile-menu.open { display: flex; opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3rem); font-weight: 300;
+    color: var(--cream); text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .mobile-divider {
+    width: 40px; height: 1px; background: rgba(201,147,58,0.3);
+  }
+
+  @media (max-width: 768px) {
+    .nav-hamburger { display: flex; }
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; padding-bottom: 4rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(139,26,42,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(26,74,74,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 80% 20%, rgba(201,147,58,0.12) 0%, transparent 60%),
+      linear-gradient(135deg, #0D0A07 0%, #1A1008 50%, #0A0D0D 100%);
+  }
+
+  /* Decorative mandala pattern */
+  .hero-mandala {
+    position: absolute; right: -5vw; top: 50%; transform: translateY(-50%);
+    width: 55vw; height: 55vw; max-width: 700px; max-height: 700px;
+    opacity: 0.07;
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 900px; padding: 0 2rem;
+    padding-top: 6rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: inline-block; width: 40px; height: 1px; background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 300; line-height: 1.0;
+    color: var(--cream);
+    opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+  }
+  .hero-title em {
+    display: block; color: var(--gold-light);
+    font-style: italic; font-weight: 300;
+    font-size: 0.55em; letter-spacing: 0.04em;
+    margin-top: 0.3em;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: rgba(247,239,224,0.6); line-height: 1.8;
+    max-width: 560px; margin: 2rem auto 3rem;
+    font-weight: 400; letter-spacing: 0.02em;
+    opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+  }
+
+  .hero-buttons {
+    display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold); color: var(--ink);
+    padding: 1rem 2.5rem; font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.3s; border: none;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,147,58,0.35); }
+
+  .btn-outline {
+    border: 1px solid rgba(201,147,58,0.5); color: var(--gold-light);
+    padding: 1rem 2.5rem; font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.3s; background: transparent;
+  }
+  .btn-outline:hover { border-color: var(--gold-light); background: rgba(201,147,58,0.08); transform: translateY(-2px); }
+
+  .hero-scroll {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    margin-top: 2.5rem;
+    opacity: 0; animation: fadeIn 1s 1.5s forwards;
+    color: rgba(247,239,224,0.4); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .hero-scroll-arrow {
+    animation: arrowBounce 1.6s ease-in-out infinite;
+  }
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ─── SECTION LAYOUTS ─── */
+  section { position: relative; }
+
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before {
+    content: ''; display: inline-block; width: 25px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 300; line-height: 1.1;
+    color: var(--cream);
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+/* ─── IMPROVED MARQUEE ─── */
+.marquee-section {
+  border-top: 1px solid rgba(201,147,58,0.15);
+  border-bottom: 1px solid rgba(201,147,58,0.15);
+  padding: 1rem 0;
+  overflow: hidden;
+  background: rgba(201,147,58,0.04);
+  display: flex; /* Ensures items stay in a single line */
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content; /* Critical: allows the track to be as wide as its children */
+  animation: marquee 40s linear infinite; /* Slowed down for better readability */
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  padding: 0 3rem; /* Keep your spacing consistent */
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: rgba(201,147,58,0.6);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 3rem; /* Reduced gap to prevent "dead air" */
+}
+
+.marquee-item::after { 
+  content: '◆'; 
+  font-size: 0.5rem; 
+  color: var(--gold); 
+  margin-left: 3rem; /* Ensures the diamond is centered between text */
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Moves exactly half the total width */
+}
+
+/* Pause on hover for better UX */
+.marquee-section:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+  /* ─── FEATURES GRID ─── */
+  .features { padding: 4rem 3rem 8rem; }
+  .features-inner { max-width: 1300px; margin: 0 auto; }
+
+  .features-header {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: end; margin-bottom: 5rem;
+  }
+
+  .features-intro {
+    font-size: 1rem; color: rgba(247,239,224,0.6); line-height: 1.9;
+    margin-top: 1.5rem;
+  }
+
+  .features-stat {
+    text-align: right;
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; color: var(--gold);
+    line-height: 1; display: block;
+  }
+  .stat-label {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(247,239,224,0.5);
+  }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: rgba(201,147,58,0.1); border: 1px solid rgba(201,147,58,0.1);
+  }
+
+  .feature-card {
+    background: var(--ink); padding: 3rem 2.5rem;
+    transition: background 0.4s; position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,147,58,0.06), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .feature-card:hover { background: #1f1a12; }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 48px; height: 48px; margin-bottom: 1.8rem;
+    color: var(--gold);
+  }
+
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; margin-bottom: 1rem;
+    color: var(--cream);
+  }
+
+  .feature-desc {
+    font-size: 0.88rem; color: rgba(247,239,224,0.55); line-height: 1.8;
+  }
+
+  .feature-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.5rem; color: var(--gold); font-size: 0.78rem;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    transition: gap 0.3s;
+  }
+  .feature-link:hover { gap: 0.9rem; }
+
+  /* ─── EXPERIENCE SECTION ─── */
+  .experience { padding: 0 3rem 8rem; }
+  .experience-inner { max-width: 1300px; margin: 0 auto; }
+
+  .experience-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+
+  .experience-visual {
+    position: relative; aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--ink) 60%);
+    border-radius: 2px; overflow: hidden;
+  }
+
+  .exp-pattern {
+    position: absolute; inset: 0; opacity: 0.15;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 20px,
+      rgba(201,147,58,0.3) 20px, rgba(201,147,58,0.3) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent, transparent 20px,
+      rgba(201,147,58,0.3) 20px, rgba(201,147,58,0.3) 21px
+    );
+  }
+
+  .exp-center-icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0.12;
+  }
+
+  .experience-text { padding: 2rem 0; }
+
+  .experience-features { margin-top: 3rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .exp-feature { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .exp-feature-dot {
+    flex-shrink: 0; width: 8px; height: 8px; background: var(--gold);
+    border-radius: 50%; margin-top: 0.45rem;
+  }
+  .exp-feature-title {
+    font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em;
+    margin-bottom: 0.3rem; color: var(--cream);
+  }
+  .exp-feature-desc { font-size: 0.85rem; color: rgba(247,239,224,0.5); line-height: 1.6; }
+
+  /* ─── CATEGORIES ─── */
+  .categories { padding: 6rem 3rem; background: rgba(255,255,255,0.02); }
+  .categories-inner { max-width: 1300px; margin: 0 auto; }
+  .cat-header { text-align: center; margin-bottom: 4rem; }
+
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
+  }
+
+  .cat-card {
+    aspect-ratio: 3/4; position: relative; overflow: hidden;
+    border-radius: 2px; background: var(--ink);
+    display: flex; align-items: flex-end;
+    transition: transform 0.4s;
+  }
+  .cat-card:hover { transform: translateY(-4px); }
+  .cat-card:nth-child(2), .cat-card:nth-child(5) {
+    grid-row: span 1; margin-top: 2rem;
+  }
+
+  .cat-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.6s;
+  }
+  .cat-card:hover .cat-bg { transform: scale(1.06); }
+
+  .cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,10,7,0.9) 0%, transparent 60%);
+  }
+
+  .cat-info { position: relative; z-index: 1; padding: 1.2rem 1rem; }
+  .cat-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 500;
+    color: var(--cream); display: block;
+  }
+  .cat-count { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.1em; }
+
+  /* Color-coded categories */
+  .cat-1 .cat-bg { background: linear-gradient(135deg, #2D1B00 0%, #1A0A0A 100%); }
+  .cat-2 .cat-bg { background: linear-gradient(135deg, #001A1A 0%, #0D1A0D 100%); }
+  .cat-3 .cat-bg { background: linear-gradient(135deg, #1A001A 0%, #0D0018 100%); }
+  .cat-4 .cat-bg { background: linear-gradient(135deg, #1A1000 0%, #0A1010 100%); }
+  .cat-5 .cat-bg { background: linear-gradient(135deg, #1A0000 0%, #150D00 100%); }
+  .cat-6 .cat-bg { background: linear-gradient(135deg, #001010 0%, #0D1A1A 100%); }
+
+  /* Decorative icons inside each card */
+  .cat-icon {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+    opacity: 0.18; color: var(--gold);
+  }
+
+  /* ─── DINING SECTION ─── */
+  .dining { padding: 8rem 3rem; }
+  .dining-inner { max-width: 1300px; margin: 0 auto; }
+  .dining-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 6rem; align-items: center; }
+
+  .dining-menu {
+    margin-top: 3rem; border-top: 1px solid rgba(201,147,58,0.15);
+  }
+  .menu-item {
+    padding: 1.5rem 0; border-bottom: 1px solid rgba(201,147,58,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: padding-left 0.3s;
+  }
+  .menu-item:hover { padding-left: 0.5rem; }
+  .menu-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--cream); }
+  .menu-tag { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+
+  .dining-visual {
+    position: relative;
+  }
+  .dining-img-main {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #2A1505 0%, #0D1510 60%, #1A0505 100%);
+    border-radius: 2px; position: relative; overflow: hidden;
+  }
+  .dining-img-accent {
+    position: absolute; bottom: -2rem; left: -2.5rem;
+    width: 55%; aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #150800 0%, #0A150A 100%);
+    border: 3px solid var(--deep); border-radius: 2px;
+    overflow: hidden;
+  }
+  .food-pattern {
+    position: absolute; inset: 0; opacity: 0.2;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(201,147,58,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(139,26,42,0.4) 0%, transparent 50%);
+  }
+  .food-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.15; }
+
+  /* ─── EVENTS BANNER ─── */
+  .events-banner {
+    padding: 5rem 3rem;
+    background: linear-gradient(135deg, var(--crimson) 0%, #5A0A15 100%);
+    position: relative; overflow: hidden;
+  }
+  .events-banner::before {
+    content: ''; position: absolute; top: -50%; right: -10%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+  }
+  .events-inner { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 3rem; }
+  .events-text .section-label { color: rgba(255,255,255,0.6); }
+  .events-text .section-label::before { background: rgba(255,255,255,0.5); }
+  .events-text .section-title { color: white; }
+  .events-desc { margin-top: 1rem; font-size: 0.95rem; color: rgba(255,255,255,0.7); max-width: 450px; line-height: 1.8; }
+  .events-cta { flex-shrink: 0; }
+
+  /* ─── INFO STRIP ─── */
+  .info-strip { padding: 4rem 3rem; background: var(--ink); border-top: 1px solid rgba(201,147,58,0.1); }
+  .info-inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .info-block { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .info-icon { flex-shrink: 0; color: var(--gold); margin-top: 0.1rem; }
+  .info-title { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 0.4rem; color: var(--cream); }
+  .info-text { font-size: 0.82rem; color: rgba(247,239,224,0.5); line-height: 1.6; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080604; padding: 5rem 3rem 2rem;
+    border-top: 1px solid rgba(201,147,58,0.1);
+  }
+  .footer-inner { max-width: 1300px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+  .footer-brand {}
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 600;
+    color: var(--gold-light); margin-bottom: 1.2rem; display: block;
+  }
+  .footer-tagline { font-size: 0.88rem; color: rgba(247,239,224,0.5); line-height: 1.8; max-width: 260px; }
+  .footer-social { display: flex; gap: 1rem; margin-top: 2rem; }
+  .social-btn {
+    width: 38px; height: 38px; border: 1px solid rgba(201,147,58,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); text-decoration: none; border-radius: 2px;
+    transition: all 0.3s; font-size: 0.9rem;
+  }
+  .social-btn:hover { background: var(--gold); color: var(--ink); }
+
+  .footer-col h4 {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .footer-col a { color: rgba(247,239,224,0.5); text-decoration: none; font-size: 0.88rem; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(201,147,58,0.1);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.78rem; color: rgba(247,239,224,0.35); }
+  .footer-address { font-size: 0.78rem; color: rgba(247,239,224,0.35); text-align: right; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.3; }
+  }
+  @keyframes rotate {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-mandala svg { animation: rotate 80s linear infinite; transform-origin: center; }
+
+  /* ─── COUNTER ANIMATION ─── */
+  .stat-number { transition: none; }
+
+  /* ─── EVENTS GRID ─── */
+  .events-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
+    margin-top: 2rem;
+  }
+  .event-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px; padding: 1.5rem;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .event-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+  .event-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; color: rgba(255,200,150,0.9);
+    line-height: 1;
+  }
+  .event-month {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 0.8rem;
+  }
+  .event-name {
+    font-size: 0.95rem; font-weight: 600; color: white;
+    margin-bottom: 0.3rem; letter-spacing: 0.02em;
+  }
+  .event-desc-small { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+  @media (max-width: 768px) {
+    .events-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 1100px) {
+    .events-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1100px) {
+    .features-header { grid-template-columns: 1fr; }
+    .features-stat { text-align: left; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .dining-grid { grid-template-columns: 1fr; }
+    .dining-img-accent { display: none; }
+    .footer-top { grid-template-columns: 1fr; }
+    .info-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .features, .experience, .categories, .dining, .events-banner, .info-strip, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .experience-grid { grid-template-columns: 1fr; }
+    .events-inner { flex-direction: column; }
+    .info-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-content { padding-top: 4rem; }
+  }
+
+  /* ─── WHATSAPP MODAL ─── */
+  .whatsapp-btn { background: none !important; }
+  .whatsapp-btn:hover { background: var(--gold) !important; border-color: var(--gold) !important; color: var(--ink) !important; }
+
+  .wa-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+  }
+  .wa-modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .wa-modal {
+    background: var(--ink);
+    border: 1px solid rgba(201,147,58,0.25);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: fadeUp 0.3s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .wa-modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; cursor: none;
+    color: rgba(247,239,224,0.4); font-size: 1.3rem; line-height: 1;
+    transition: color 0.2s;
+  }
+  .wa-modal-close:hover { color: var(--cream); }
+
+  .wa-modal-icon {
+    width: 52px; height: 52px; background: #25D366;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+  }
+
+  .wa-modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .wa-modal p {
+    font-size: 0.85rem; color: rgba(247,239,224,0.55);
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+
+  .wa-qr-img {
+    width: 220px; height: 220px; object-fit: contain;
+    border: 1px solid rgba(201,147,58,0.2);
+    border-radius: 2px; background: white; padding: 8px;
+    display: block; margin: 0 auto;
+  }
+
+  .wa-scan-hint {
+    margin-top: 1rem; font-size: 0.75rem;
+    color: rgba(247,239,224,0.35); letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTACT MODAL ─── */
+  .contact-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .contact-modal {
+    background: var(--ink);
+    border: 1px solid rgba(201,147,58,0.25);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: fadeUp 0.3s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .contact-modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; cursor: none;
+    color: rgba(247,239,224,0.4); font-size: 1.3rem; line-height: 1;
+    transition: color 0.2s;
+  }
+  .contact-modal-close:hover { color: var(--cream); }
+
+  .contact-modal-icon {
+    width: 52px; height: 52px; background: var(--gold);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+  }
+
+  .contact-modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-modal p {
+    font-size: 0.85rem; color: rgba(247,239,224,0.55);
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+
+  .contact-btn {
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    width: 100%; padding: 1rem 1.5rem;
+    border: 1px solid rgba(201,147,58,0.3);
+    border-radius: 2px; background: transparent;
+    color: var(--cream); font-family: 'Syne', sans-serif;
+    font-size: 0.88rem; font-weight: 600; letter-spacing: 0.04em;
+    text-decoration: none; cursor: none;
+    transition: all 0.3s;
+    margin-bottom: 0.8rem;
+  }
+  .contact-btn:last-child { margin-bottom: 0; }
+  .contact-btn:hover {
+    background: rgba(201,147,58,0.1);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .contact-btn svg { flex-shrink: 0; color: var(--gold); }
+
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <div class="mobile-divider"></div>
+  <a href="#categories" onclick="closeMobileMenu()">Shopping</a>
+  <div class="mobile-divider"></div>
+  <a href="#dining" onclick="closeMobileMenu()">Dining</a>
+  <div class="mobile-divider"></div>
+  <a href="#events" onclick="closeMobileMenu()">Events</a>
+  <div class="mobile-divider"></div>
+  <a href="javascript:void(0)" onclick="closeMobileMenu();openContactModal()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Mall <span>of</span> India</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#categories">Shopping</a></li>
+    <li><a href="#dining">Dining</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="javascript:void(0)" onclick="openContactModal()">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- Mandala SVG -->
+  <div class="hero-mandala">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#C9933A" stroke-width="0.5">
+        <circle cx="200" cy="200" r="190"/>
+        <circle cx="200" cy="200" r="160"/>
+        <circle cx="200" cy="200" r="130"/>
+        <circle cx="200" cy="200" r="100"/>
+        <circle cx="200" cy="200" r="70"/>
+        <circle cx="200" cy="200" r="40"/>
+        <!-- petals -->
+        <path d="M200 10 Q220 100 200 130 Q180 100 200 10" fill="rgba(201,147,58,0.15)"/>
+        <path d="M200 390 Q220 300 200 270 Q180 300 200 390" fill="rgba(201,147,58,0.15)"/>
+        <path d="M10 200 Q100 220 130 200 Q100 180 10 200" fill="rgba(201,147,58,0.15)"/>
+        <path d="M390 200 Q300 220 270 200 Q300 180 390 200" fill="rgba(201,147,58,0.15)"/>
+        <path d="M55 55 Q128 128 148 148 Q128 128 55 55" stroke-width="1"/>
+        <path d="M345 55 Q272 128 252 148 Q272 128 345 55" stroke-width="1"/>
+        <path d="M55 345 Q128 272 148 252 Q128 272 55 345" stroke-width="1"/>
+        <path d="M345 345 Q272 272 252 252 Q272 272 345 345" stroke-width="1"/>
+        <!-- spokes -->
+        <line x1="200" y1="10" x2="200" y2="390"/>
+        <line x1="10" y1="200" x2="390" y2="200"/>
+        <line x1="55" y1="55" x2="345" y2="345"/>
+        <line x1="345" y1="55" x2="55" y2="345"/>
+        <!-- diamond pattern -->
+        <polygon points="200,130 230,200 200,270 170,200" fill="rgba(201,147,58,0.08)" stroke-width="0.5"/>
+        <polygon points="200,80 260,200 200,320 140,200" fill="rgba(201,147,58,0.05)" stroke-width="0.5"/>
+        <!-- inner details -->
+        <circle cx="200" cy="200" r="20" fill="rgba(201,147,58,0.2)"/>
+        <circle cx="200" cy="200" r="8" fill="rgba(201,147,58,0.4)"/>
+        <!-- outer detail dots -->
+        <circle cx="200" cy="40" r="3" fill="#C9933A"/>
+        <circle cx="200" cy="360" r="3" fill="#C9933A"/>
+        <circle cx="40" cy="200" r="3" fill="#C9933A"/>
+        <circle cx="360" cy="200" r="3" fill="#C9933A"/>
+        <circle cx="87" cy="87" r="3" fill="#C9933A"/>
+        <circle cx="313" cy="87" r="3" fill="#C9933A"/>
+        <circle cx="87" cy="313" r="3" fill="#C9933A"/>
+        <circle cx="313" cy="313" r="3" fill="#C9933A"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Naperville, Illinois</div>
+    <h1 class="hero-title">
+      Mall of India
+      <em>Where Culture Lives</em>
+    </h1>
+    <p class="hero-subtitle">
+      One destination for South Asian lifestyle — fashion, cuisine, entertainment, community & culture, all under one roof.
+    </p>
+    <div class="hero-scroll">
+      <svg class="hero-scroll-arrow" width="20" height="30" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="0" x2="10" y2="22" stroke="#C9933A" stroke-width="1"/><polyline points="3,15 10,24 17,15" fill="none" stroke="#C9933A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <!-- duplicated for seamless loop -->
+    <div class="marquee-item">Fashion & Apparel</div>
+    <div class="marquee-item">South Asian Cuisine</div>
+    <div class="marquee-item">Jewelry & Accessories</div>
+    <div class="marquee-item">Entertainment</div>
+    <div class="marquee-item">Kids Activities</div>
+    <div class="marquee-item">Community Events</div>
+    <div class="marquee-item">Grocery & Spices</div>
+    <div class="marquee-item">Beauty & Wellness</div>
+    <div class="marquee-item">Leasing Available</div>
+    <div class="marquee-item">Fashion & Apparel</div>
+    <div class="marquee-item">South Asian Cuisine</div>
+    <div class="marquee-item">Jewelry & Accessories</div>
+    <div class="marquee-item">Entertainment</div>
+    <div class="marquee-item">Kids Activities</div>
+    <div class="marquee-item">Community Events</div>
+    <div class="marquee-item">Grocery & Spices</div>
+    <div class="marquee-item">Beauty & Wellness</div>
+    <div class="marquee-item">Leasing Available</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="about">
+  <div class="features-inner">
+    <div class="features-header reveal">
+      <div>
+        <div class="section-label">About the Mall</div>
+        <h2 class="section-title">More than<br><em>just shopping</em></h2>
+        <p class="features-intro">
+          Mall of India is Naperville's premier South Asian lifestyle destination — a space where shopping, dining, family and community come together in one vibrant, welcoming hub.
+        </p>
+      </div>
+      <div class="features-stat">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Stores & Services</span>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="8" y="16" width="32" height="26" rx="1"/>
+          <path d="M16 16v-4a8 8 0 0116 0v4"/>
+          <circle cx="24" cy="29" r="3"/>
+        </svg>
+        <div class="feature-title">Fashion & Apparel</div>
+        <p class="feature-desc">From traditional sarees and lehengas to contemporary South Asian fusion wear — curated boutiques for every occasion.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 36s0-12 8-12 8 12 16 12 8-12 8-12"/>
+          <circle cx="24" cy="16" r="6"/>
+        </svg>
+        <div class="feature-title">Authentic Dining</div>
+        <p class="feature-desc">A food court bursting with regional Indian cuisine — from street chaat to royal thalis, delivering real flavors from home.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M24 8l4 8 9 1.3-6.5 6.3 1.5 9L24 28l-8 4.6 1.5-9L11 17.3l9-1.3z"/>
+        </svg>
+        <div class="feature-title">Events & Culture</div>
+        <p class="feature-desc">Festivals, performances, cultural celebrations and community gatherings held year-round in our event spaces.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="16" cy="22" r="7"/>
+          <circle cx="32" cy="22" r="7"/>
+          <path d="M7 38c0-5 4-8 9-8h2M41 38c0-5-4-8-9-8h-2"/>
+        </svg>
+        <div class="feature-title">Kids & Family</div>
+        <p class="feature-desc">Dedicated children's activity zones, educational programs, and family-focused services within the mall.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M24 6C14 6 6 14 6 24s8 18 18 18 18-8 18-18S34 6 24 6z"/>
+          <path d="M24 6v36M6 24h36"/>
+          <path d="M10 13c4 3 9 5 14 5s10-2 14-5M10 35c4-3 9-5 14-5s10 2 14 5"/>
+        </svg>
+        <div class="feature-title">Community Services</div>
+        <p class="feature-desc">Health, education, financial and immigration services serving the greater South Asian community of Chicagoland.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <svg class="feature-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="10" y="14" width="28" height="20" rx="1"/>
+          <path d="M18 34v4M30 34v4M14 38h20"/>
+          <path d="M19 22h10M19 27h6"/>
+        </svg>
+        <div class="feature-title">Advertising & Leasing</div>
+        <p class="feature-desc">Premium retail spaces and targeted advertising opportunities reaching the entire Chicagoland South Asian market.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="experience-inner">
+    <div class="experience-grid">
+      <div class="experience-visual reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2976.25550273125!2d-88.20492072488666!3d41.75814877125513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880ef905f681b65b%3A0x71995e476c63c95d!2sMall%20Of%20India!5e0!3m2!1sen!2sus!4v1772575670477!5m2!1sen!2sus"
+          style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:2px;"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <div class="experience-text reveal reveal-delay-2">
+        <div class="section-label">The Experience</div>
+        <h2 class="section-title">Rooted in<br><em>South Asian culture</em></h2>
+        <p style="margin-top:1.5rem; color:rgba(247,239,224,0.6); line-height:1.9; font-size:0.95rem;">
+          For the South Asian community of Chicagoland, Mall of India is more than a destination — it's a gathering place. A space where traditions are honored, families reconnect, and new memories are made every day.
+        </p>
+
+        <div class="experience-features">
+          <div class="exp-feature">
+            <div class="exp-feature-dot"></div>
+            <div>
+              <div class="exp-feature-title">Diverse Retail Ecosystem</div>
+              <div class="exp-feature-desc">From groceries and spices to high-end jewelry and electronics, our vendors bring the full spectrum of South Asian retail to one address.</div>
+            </div>
+          </div>
+          <div class="exp-feature">
+            <div class="exp-feature-dot"></div>
+            <div>
+              <div class="exp-feature-title">Year-Round Celebrations</div>
+              <div class="exp-feature-desc">Diwali, Navratri, Eid, Holi — we celebrate all with elaborate programs, performances and community gatherings.</div>
+            </div>
+          </div>
+          <div class="exp-feature">
+            <div class="exp-feature-dot"></div>
+            <div>
+              <div class="exp-feature-title">Family-First Design</div>
+              <div class="exp-feature-desc">Thoughtfully designed spaces for children, elderly visitors and families of all sizes — comfort is never an afterthought.</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary" style="margin-top:2.5rem;display:inline-flex;">
+          Visit Us
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="categories-inner">
+    <div class="cat-header reveal">
+      <div class="section-label" style="justify-content:center;">What We Offer</div>
+      <h2 class="section-title">Shop <em>every category</em></h2>
+    </div>
+
+    <div class="cat-grid">
+      <div class="cat-card cat-1 reveal">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Fashion</span>
+          <span class="cat-count">18 Stores</span>
+        </div>
+      </div>
+      <div class="cat-card cat-2 reveal reveal-delay-1">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M3 6h18l-2 13H5L3 6z"/><path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Grocery</span>
+          <span class="cat-count">4 Stores</span>
+        </div>
+      </div>
+      <div class="cat-card cat-3 reveal reveal-delay-2">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Jewelry</span>
+          <span class="cat-count">7 Stores</span>
+        </div>
+      </div>
+      <div class="cat-card cat-4 reveal reveal-delay-1">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M10 10h4"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Beauty</span>
+          <span class="cat-count">5 Stores</span>
+        </div>
+      </div>
+      <div class="cat-card cat-5 reveal reveal-delay-2">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Electronics</span>
+          <span class="cat-count">3 Stores</span>
+        </div>
+      </div>
+      <div class="cat-card cat-6 reveal reveal-delay-3">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="cat-info">
+          <span class="cat-name">Services</span>
+          <span class="cat-count">10+ Vendors</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DINING -->
+<section class="dining" id="dining">
+  <div class="dining-inner">
+    <div class="dining-grid">
+      <div class="reveal">
+        <div class="section-label">Food Court</div>
+        <h2 class="section-title">Flavors of<br><em>the subcontinent</em></h2>
+        <p style="margin-top:1.5rem; color:rgba(247,239,224,0.6); line-height:1.9; font-size:0.95rem;">
+          From the smoky tandoors of Punjab to the spiced coconut curries of Kerala — our food court is a culinary journey across India, available for dine-in, pickup, or delivery.
+        </p>
+
+        <div class="dining-menu">
+          <div class="menu-item">
+            <span class="menu-name">North Indian Thali</span>
+            <span class="menu-tag">Chef's Choice</span>
+          </div>
+          <div class="menu-item">
+            <span class="menu-name">Street Chaat Station</span>
+            <span class="menu-tag">Daily Special</span>
+          </div>
+          <div class="menu-item">
+            <span class="menu-name">South Indian Dosa Bar</span>
+            <span class="menu-tag">Crowd Favorite</span>
+          </div>
+          <div class="menu-item">
+            <span class="menu-name">Biryani & Kebabs</span>
+            <span class="menu-tag">Weekend Special</span>
+          </div>
+          <div class="menu-item">
+            <span class="menu-name">Indian Sweets & Bakery</span>
+            <span class="menu-tag">Fresh Daily</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;margin-top:2.5rem;">
+          <a href="https://www.grubhub.com/restaurant/telugu-ruchulu-of-naperville---mall-of-india-776-s-route-59-suite-171-naperville/11629352" class="btn-primary" target="_blank">
+            Order
+          </a>
+        </div>
+      </div>
+
+      <div class="dining-visual reveal reveal-delay-2">
+        <div class="dining-img-main">
+          <div class="food-pattern"></div>
+          <svg class="food-icon" width="180" height="180" viewBox="0 0 100 100" fill="none" stroke="#C9933A" stroke-width="0.6">
+            <circle cx="50" cy="50" r="45"/>
+            <circle cx="50" cy="50" r="30"/>
+            <circle cx="50" cy="50" r="15"/>
+            <path d="M50 5 Q60 30 50 50 Q40 30 50 5"/>
+            <path d="M50 95 Q60 70 50 50 Q40 70 50 95"/>
+            <path d="M5 50 Q30 60 50 50 Q30 40 5 50"/>
+            <path d="M95 50 Q70 60 50 50 Q70 40 95 50"/>
+            <path d="M18 18 Q35 35 50 50 Q35 35 18 18"/>
+            <path d="M82 18 Q65 35 50 50 Q65 35 82 18"/>
+            <path d="M18 82 Q35 65 50 50 Q35 65 18 82"/>
+            <path d="M82 82 Q65 65 50 50 Q65 65 82 82"/>
+          </svg>
+        </div>
+        <div class="dining-img-accent">
+          <div class="food-pattern"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS BANNER -->
+<section class="events-banner" id="events">
+  <div class="events-banner::before"></div>
+  <div class="events-inner" style="flex-direction:column;align-items:flex-start;gap:2.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;width:100%;flex-wrap:wrap;gap:1.5rem;">
+      <div class="events-text reveal">
+        <div class="section-label">Events & Community</div>
+        <h2 class="section-title" style="color:white;">Celebrating every<br><em style="color:rgba(255,200,150,0.9);">festival together</em></h2>
+        <p class="events-desc">Join us for Diwali, Navratri, Holi, Eid, Baisakhi and dozens of community events throughout the year. Mall of India is the heartbeat of Chicagoland's South Asian community.</p>
+      </div>
+      <div class="events-cta reveal reveal-delay-2">
+        <a href="#contact" class="btn-primary" style="background:white;color:var(--crimson);">
+          All Events
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="events-grid reveal reveal-delay-1" style="width:100%;">
+      <div class="event-card">
+        <div class="event-date">29</div>
+        <div class="event-month">Mar 2025</div>
+        <div class="event-name">Holi Color Festival</div>
+        <div class="event-desc-small">Live dhol, gulaal colors & sweets. Family-friendly celebration open to all.</div>
+      </div>
+      <div class="event-card">
+        <div class="event-date">14</div>
+        <div class="event-month">Apr 2025</div>
+        <div class="event-name">Baisakhi Mela</div>
+        <div class="event-desc-small">Punjabi folk music, bhangra performances, traditional food & cultural exhibits.</div>
+      </div>
+      <div class="event-card">
+        <div class="event-date">18</div>
+        <div class="event-month">Oct 2025</div>
+        <div class="event-name">Navratri Garba Night</div>
+        <div class="event-desc-small">Nine nights of garba & dandiya raas. Costume contests, live orchestra & prizes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip" id="leasing">
+  <div class="info-inner">
+    <div class="info-block reveal">
+      <svg class="info-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a5 5 0 015 5c0 5-5 13-5 13S7 12 7 7a5 5 0 015-5z"/><circle cx="12" cy="7" r="2"/></svg>
+      <div>
+        <div class="info-title">Location</div>
+        <div class="info-text">776 S Route 59, Suite 171<br>Naperville, IL 60540</div>
+      </div>
+    </div>
+    <div class="info-block reveal reveal-delay-1">
+      <svg class="info-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div>
+        <div class="info-title">Mall Hours</div>
+        <div class="info-text">Mon–Sat: 10am – 9pm<br>Sunday: 11am – 7pm</div>
+      </div>
+    </div>
+    <div class="info-block reveal reveal-delay-2">
+      <svg class="info-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <div>
+        <div class="info-title">Leasing</div>
+        <div class="info-text">Retail spaces available now.<br>Join our growing community.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">Mall of India</span>
+        <p class="footer-tagline">Naperville's premier South Asian lifestyle destination — shopping, dining, entertainment and community under one roof.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/mallofindianaperville" class="social-btn" title="Facebook" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/mallofindiausa/" class="social-btn" title="Instagram" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <button class="social-btn whatsapp-btn" title="Join WhatsApp Group" onclick="openWhatsAppModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#categories">Shopping</a></li>
+          <li><a href="#dining">Dining</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#experience">Virtual Tour</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© <span id="copyright-year"></span> Mall of India. All rights reserved.</span>
+      <span class="footer-address">Serving the South Asian community of Chicagoland</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '55px'; ring.style.height = '55px'; ring.style.opacity = '1'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '0.6'; });
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Scroll-spy active nav
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const spyObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(s => spyObserver.observe(s));
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Animated stat counter
+  function animateCounter(el, target, suffix) {
+    const duration = 1800;
+    const start = performance.now();
+    const update = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+  const statEl = document.querySelector('.stat-number');
+  if (statEl) {
+    const counterObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounter(statEl, 50, '+');
+        counterObserver.disconnect();
+      }
+    }, { threshold: 0.5 });
+    counterObserver.observe(statEl);
+  }
+
+  // Dynamic copyright year
+  const centralYear = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', year: 'numeric' });
+  document.getElementById('copyright-year').textContent = centralYear;
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // WhatsApp modal
+  function openWhatsAppModal() {
+    document.getElementById('waModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeWhatsAppModal() {
+    document.getElementById('waModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeWaModalOnBackdrop(e) {
+    if (e.target === document.getElementById('waModal')) closeWhatsAppModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWhatsAppModal(); });
+
+  // WhatsApp modal
+  function openWhatsAppModal() {
+    document.getElementById('waModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeWhatsAppModal() {
+    document.getElementById('waModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeWaModalOnBackdrop(e) {
+    if (e.target === document.getElementById('waModal')) closeWhatsAppModal();
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeWhatsAppModal(); });
+
+  // Contact modal
+  function openContactModal() {
+    document.getElementById('contactModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContactModal() {
+    document.getElementById('contactModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeContactModalOnBackdrop(e) {
+    if (e.target === document.getElementById('contactModal')) closeContactModal();
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeContactModal(); });
+</script>
+<!-- WHATSAPP MODAL -->
+<div class="wa-modal-overlay" id="waModal" onclick="closeWaModalOnBackdrop(event)">
+  <div class="wa-modal">
+    <button class="wa-modal-close" onclick="closeWhatsAppModal()" aria-label="Close">✕</button>
+    <div class="wa-modal-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </div>
+    <h3>Join Our Community</h3>
+    <p>Scan the QR code below with your phone's camera to join the Mall of India WhatsApp group — get event updates, deals, and community news.</p>
+    <img
+      class="wa-qr-img"
+      src="https://github.com/chemix444/moicdn/blob/main/whatsappscanzoom.png?raw=true"
+      alt="WhatsApp Group QR Code"
+    />
+    <div class="wa-scan-hint">Point your camera at the code to join</div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="contact-modal-overlay" id="contactModal" onclick="closeContactModalOnBackdrop(event)">
+  <div class="contact-modal">
+    <button class="contact-modal-close" onclick="closeContactModal()" aria-label="Close">✕</button>
+    <div class="contact-modal-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 11.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.79a16 16 0 006.12 6.12l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    </div>
+    <h3>Contact Us</h3>
+    <p>Reach out to Mall of India — tap below to send us an email or give us a call.</p>
+    <a href="mailto:mallofindia@outlook.com" class="contact-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+      mallofindia@outlook.com
+    </a>
+    <a href="tel:+16305280000" class="contact-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 11.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.79a16 16 0 006.12 6.12l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      (630) 528-0000
+    </a>
+  </div>
+</div>
+</body>
+</html>
