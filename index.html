@@ -926,6 +926,40 @@
     font-size: 0.95rem; color: var(--cream);
     background: rgba(13,10,7,0.8);
     text-align: center;
+    position: relative;
+  }
+
+  .cat-modal-item-arrow {
+    display: inline-block;
+    margin-left: 0.4rem;
+    font-size: 1.1rem;
+    color: var(--gold);
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+  }
+
+  .cat-modal-item.expanded .cat-modal-item-arrow {
+    transform: rotate(90deg);
+  }
+
+  .cat-modal-item-desc {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0.7rem;
+    font-size: 0.78rem;
+    color: rgba(247,239,224,0.7);
+    line-height: 1.5;
+    background: rgba(13,10,7,0.9);
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+
+  .cat-modal-item.expanded .cat-modal-item-desc {
+    max-height: 10rem;
+    padding: 0.5rem 0.7rem 0.7rem;
+  }
+
+  .cat-modal-item {
+    cursor: pointer;
   }
 
   .cat-modal::-webkit-scrollbar { width: 6px; }
@@ -1518,37 +1552,37 @@
       title: 'Stores',
       subtitle: 'Shopping at Mall of India',
       items: [
-        { name: 'India Co.', img: 'https://mallofindia.us/images/client/indiaco.jpg' },
-        { name: 'Shashwath Silks', img: 'https://mallofindia.us/images/client/shashwath-silks.jpg' },
-        { name: 'Meena Bazaar', img: 'https://mallofindia.us/images/client/meena-bazaar.jpg' },
-        { name: 'Famous Meats', img: 'https://mallofindia.us/images/client/famous-meats.jpg' },
-        { name: 'Srishti', img: 'https://mallofindia.us/images/client/srishti.jpg' },
-        { name: 'Golden Silks', img: 'https://mallofindia.us/images/client/golden-silks.jpg' }
+        { name: 'India Co.', img: 'https://mallofindia.us/images/client/indiaco.jpg', desc: 'A curated collection of authentic Indian groceries, spices, and everyday essentials sourced directly from India.' },
+        { name: 'Shashwath Silks', img: 'https://mallofindia.us/images/client/shashwath-silks.jpg', desc: 'Premium silk sarees and traditional Indian clothing featuring exquisite handloom and designer collections.' },
+        { name: 'Meena Bazaar', img: 'https://mallofindia.us/images/client/meena-bazaar.jpg', desc: 'A vibrant marketplace offering traditional Indian fashion, ethnic wear, and accessories for every occasion.' },
+        { name: 'Famous Meats', img: 'https://mallofindia.us/images/client/famous-meats.jpg', desc: 'Fresh, high-quality halal meats and specialty cuts prepared with the highest standards of freshness.' },
+        { name: 'Srishti', img: 'https://mallofindia.us/images/client/srishti.jpg', desc: 'Elegant Indian fashion boutique specializing in contemporary and traditional women\'s clothing and accessories.' },
+        { name: 'Golden Silks', img: 'https://mallofindia.us/images/client/golden-silks.jpg', desc: 'Luxurious silk sarees, lehengas, and bridal wear featuring the finest fabrics and intricate craftsmanship.' }
       ]
     },
     activities: {
       title: 'Activities',
       subtitle: 'Kids Activities at Mall of India',
       items: [
-        { name: 'BB', img: 'https://mallofindia.us/images/client/bb.jpg' },
-        { name: 'ConfidentLee', img: 'https://mallofindia.us/images/client/confidentlee.jpg' },
-        { name: 'Stem Shala', img: 'https://mallofindia.us/images/client/stem-shala.jpg' },
-        { name: 'Dance', img: 'https://mallofindia.us/images/client/dance.jpg' }
+        { name: 'BB', img: 'https://mallofindia.us/images/client/bb.jpg', desc: 'Fun and engaging play area designed to keep kids entertained with creative and interactive experiences.' },
+        { name: 'ConfidentLee', img: 'https://mallofindia.us/images/client/confidentlee.jpg', desc: 'Confidence-building programs for children through public speaking, leadership, and personality development classes.' },
+        { name: 'Stem Shala', img: 'https://mallofindia.us/images/client/stem-shala.jpg', desc: 'Hands-on STEM education programs where kids explore science, technology, engineering, and math through fun projects.' },
+        { name: 'Dance', img: 'https://mallofindia.us/images/client/dance.jpg', desc: 'Dance classes for all ages featuring Bollywood, classical Indian, and contemporary dance styles.' }
       ]
     },
     restaurants: {
       title: 'Restaurants',
       subtitle: 'Food Court at Mall of India',
       items: [
-        { name: 'HH', img: 'https://mallofindia.us/images/client/hh.jpg' },
-        { name: 'Monks', img: 'https://mallofindia.us/images/client/monks.jpg' },
-        { name: 'Wraps', img: 'https://mallofindia.us/images/client/wraps.jpg' },
-        { name: 'Desi Village', img: 'https://mallofindia.us/images/client/desivillage.jpg' },
-        { name: 'Nala', img: 'https://mallofindia.us/images/client/nala.jpg' },
-        { name: 'Nala Robotics', img: 'https://mallofindia.us/images/client/nala-robotics.jpg' },
-        { name: 'One Mean Chicken', img: 'https://mallofindia.us/images/client/one-mean-chicken.jpg' },
-        { name: 'Thai 76', img: 'https://mallofindia.us/images/client/thai76.jpg' },
-        { name: 'Surya Tiffins', img: 'https://mallofindia.us/images/client/surya-tiffins.jpg' }
+        { name: 'HH', img: 'https://mallofindia.us/images/client/hh.jpg', desc: 'Hearty and flavorful dishes served fresh, offering a satisfying dining experience with every visit.' },
+        { name: 'Monks', img: 'https://mallofindia.us/images/client/monks.jpg', desc: 'Asian-inspired cuisine blending bold flavors and fresh ingredients into delicious noodles, rice bowls, and more.' },
+        { name: 'Wraps', img: 'https://mallofindia.us/images/client/wraps.jpg', desc: 'Delicious wraps and rolls packed with flavorful fillings, perfect for a quick and tasty meal on the go.' },
+        { name: 'Desi Village', img: 'https://mallofindia.us/images/client/desivillage.jpg', desc: 'Authentic North Indian village-style cooking featuring rustic flavors, tandoori dishes, and traditional recipes.' },
+        { name: 'Nala', img: 'https://mallofindia.us/images/client/nala.jpg', desc: 'South Indian restaurant serving classic dosas, idlis, and flavorful curries made with traditional recipes.' },
+        { name: 'Nala Robotics', img: 'https://mallofindia.us/images/client/nala-robotics.jpg', desc: 'The world\'s first robotic kitchen serving freshly prepared multi-cuisine dishes with cutting-edge automation.' },
+        { name: 'One Mean Chicken', img: 'https://mallofindia.us/images/client/one-mean-chicken.jpg', desc: 'Juicy, bold, and flavorful chicken dishes with a kick — from crispy fried to grilled perfection.' },
+        { name: 'Thai 76', img: 'https://mallofindia.us/images/client/thai76.jpg', desc: 'Authentic Thai cuisine featuring aromatic curries, stir-fries, and noodle dishes bursting with fresh flavors.' },
+        { name: 'Surya Tiffins', img: 'https://mallofindia.us/images/client/surya-tiffins.jpg', desc: 'Traditional South Indian tiffin favorites including crispy dosas, fluffy idlis, and savory vadas.' }
       ]
     }
   };
@@ -1564,7 +1598,11 @@
       var div = document.createElement('div');
       div.className = 'cat-modal-item';
       div.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">' +
-        '<div class="cat-modal-item-name">' + item.name + '</div>';
+        '<div class="cat-modal-item-name">' + item.name + '<span class="cat-modal-item-arrow">&#8250;</span></div>' +
+        (item.desc ? '<div class="cat-modal-item-desc">' + item.desc + '</div>' : '');
+      div.addEventListener('click', function() {
+        div.classList.toggle('expanded');
+      });
       grid.appendChild(div);
     });
     document.getElementById('catModal').classList.add('open');
