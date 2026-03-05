@@ -1509,18 +1509,7 @@
     };
     requestAnimationFrame(update);
   }
-  const statEl = document.getElementById('dynamicStoreCount');
-  if (statEl) {
-    var dynamicTotal = 0;
-    for (var key in catModalData) dynamicTotal += catModalData[key].items.length;
-    const counterObserver = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounter(statEl, dynamicTotal, '+');
-        counterObserver.disconnect();
-      }
-    }, { threshold: 0.5 });
-    counterObserver.observe(statEl);
-  }
+  // Counter observer is set up after catModalData is defined (see below)
 
   // Dynamic copyright year
   const centralYear = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', year: 'numeric' });
@@ -1600,7 +1589,16 @@
       if (el) el.textContent = count + ' ' + catModalData[key].title;
     }
     var totalEl = document.getElementById('dynamicStoreCount');
-    if (totalEl) totalEl.textContent = total;
+    if (totalEl) {
+      totalEl.textContent = total + '+';
+      var counterObserver = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          animateCounter(totalEl, total, '+');
+          counterObserver.disconnect();
+        }
+      }, { threshold: 0.5 });
+      counterObserver.observe(totalEl);
+    }
   })();
 
   function openCatModal(category) {
