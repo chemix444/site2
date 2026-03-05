@@ -613,7 +613,8 @@
     font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--gold); margin-bottom: 1.5rem;
   }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .footer-col { text-align: right; justify-self: end; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
   .footer-col a { color: rgba(247,239,224,0.5); text-decoration: none; font-size: 0.88rem; transition: color 0.3s; }
   .footer-col a:hover { color: var(--gold-light); }
 
@@ -727,6 +728,8 @@
     .events-grid { gap: 1rem; }
     .info-inner { grid-template-columns: 1fr; gap: 1.5rem; }
     .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-col { text-align: left; justify-self: start; }
+    .footer-col ul { align-items: flex-start; }
     .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
     .footer-address { text-align: center; }
     footer { padding: 3rem 1.5rem 2rem; }
@@ -1518,10 +1521,10 @@
         <ul>
           <li><a href="#">Home</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#experience">The Experience</a></li>
           <li><a href="#categories">Shopping</a></li>
           <li><a href="#dining">Dining</a></li>
           <li><a href="#events">Events</a></li>
-          <li><a href="#experience">Virtual Tour</a></li>
         </ul>
       </div>
 
