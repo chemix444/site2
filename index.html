@@ -1509,11 +1509,13 @@
     };
     requestAnimationFrame(update);
   }
-  const statEl = document.querySelector('.stat-number');
+  const statEl = document.getElementById('dynamicStoreCount');
   if (statEl) {
+    var dynamicTotal = 0;
+    for (var key in catModalData) dynamicTotal += catModalData[key].items.length;
     const counterObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(statEl, 50, '+');
+        animateCounter(statEl, dynamicTotal, '');
         counterObserver.disconnect();
       }
     }, { threshold: 0.5 });
