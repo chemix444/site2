@@ -1111,8 +1111,8 @@
         </p>
       </div>
       <div class="features-stat">
-        <span class="stat-number">50+</span>
-        <span class="stat-label">Stores & Services</span>
+        <span class="stat-number" id="dynamicStoreCount">19</span>
+        <span class="stat-label">Stores, Activities & Restaurants</span>
       </div>
     </div>
 
@@ -1239,7 +1239,7 @@
         <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <div class="cat-info">
           <span class="cat-name">Stores</span>
-          <span class="cat-count">6 Stores</span>
+          <span class="cat-count" id="catCountStores">6 Stores</span>
         </div>
       </div>
       <div class="cat-card cat-2 reveal reveal-delay-1" onclick="openCatModal('activities')">
@@ -1248,7 +1248,7 @@
         <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <div class="cat-info">
           <span class="cat-name">Activities</span>
-          <span class="cat-count">4 Activities</span>
+          <span class="cat-count" id="catCountActivities">4 Activities</span>
         </div>
       </div>
       <div class="cat-card cat-3 reveal reveal-delay-2" onclick="openCatModal('restaurants')">
@@ -1257,7 +1257,7 @@
         <svg class="cat-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
         <div class="cat-info">
           <span class="cat-name">Restaurants</span>
-          <span class="cat-count">9 Restaurants</span>
+          <span class="cat-count" id="catCountRestaurants">9 Restaurants</span>
         </div>
       </div>
     </div>
@@ -1586,6 +1586,20 @@
       ]
     }
   };
+
+  // Dynamically update counts from catModalData
+  (function() {
+    var total = 0;
+    var ids = { stores: 'catCountStores', activities: 'catCountActivities', restaurants: 'catCountRestaurants' };
+    for (var key in catModalData) {
+      var count = catModalData[key].items.length;
+      total += count;
+      var el = document.getElementById(ids[key]);
+      if (el) el.textContent = count + ' ' + catModalData[key].title;
+    }
+    var totalEl = document.getElementById('dynamicStoreCount');
+    if (totalEl) totalEl.textContent = total;
+  })();
 
   function openCatModal(category) {
     var data = catModalData[category];
