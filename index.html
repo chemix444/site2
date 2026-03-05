@@ -1515,7 +1515,7 @@
     for (var key in catModalData) dynamicTotal += catModalData[key].items.length;
     const counterObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(statEl, dynamicTotal, '');
+        animateCounter(statEl, dynamicTotal, '+');
         counterObserver.disconnect();
       }
     }, { threshold: 0.5 });
